@@ -1,13 +1,17 @@
-import { Coffee, User, Shield } from "lucide-react";
+import { Coffee, User, Shield, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+type AppRole = "admin" | "client";
 
 interface HeaderProps {
   view: "admin" | "client";
   onViewChange: (view: "admin" | "client") => void;
+  userRole?: AppRole | null;
+  onSignOut?: () => void;
 }
 
-export function Header({ view, onViewChange }: HeaderProps) {
+export function Header({ view, onViewChange, userRole, onSignOut }: HeaderProps) {
   return (
     <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
@@ -24,31 +28,33 @@ export function Header({ view, onViewChange }: HeaderProps) {
             </div>
           </div>
 
-          <div className="flex gap-2">
-            <Button
-              variant={view === "client" ? "default" : "outline"}
-              size="sm"
-              onClick={() => onViewChange("client")}
-              className={cn(
-                "gap-2",
-                view === "client" && "shadow-soft"
+          <div className="flex items-center gap-3">
+            {/* Role indicator */}
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-full">
+              {userRole === "admin" ? (
+                <>
+                  <Shield className="w-4 h-4 text-coffee" />
+                  <span className="text-sm font-medium text-foreground">Admin</span>
+                </>
+              ) : (
+                <>
+                  <User className="w-4 h-4 text-coffee" />
+                  <span className="text-sm font-medium text-foreground">Client</span>
+                </>
               )}
-            >
-              <User className="w-4 h-4" />
-              Client
-            </Button>
-            <Button
-              variant={view === "admin" ? "default" : "outline"}
-              size="sm"
-              onClick={() => onViewChange("admin")}
-              className={cn(
-                "gap-2",
-                view === "admin" && "shadow-soft"
-              )}
-            >
-              <Shield className="w-4 h-4" />
-              Admin
-            </Button>
+            </div>
+
+            {onSignOut && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onSignOut}
+                className="gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Button>
+            )}
           </div>
         </div>
       </div>

@@ -3,8 +3,9 @@ import { Search, Coffee } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { StampCard } from "./StampCard";
+import { Client } from "@/hooks/useClients";
 
-interface Client {
+interface ClientDisplay {
   id: string;
   name: string;
   phone: string;
@@ -13,17 +14,35 @@ interface Client {
 }
 
 interface ClientLookupProps {
-  clients: Client[];
+  clients: ClientDisplay[];
+  findByPhone?: (phone: string) => Client | undefined;
 }
 
-export function ClientLookup({ clients }: ClientLookupProps) {
+export function ClientLookup({ clients, findByPhone }: ClientLookupProps) {
   const [phone, setPhone] = useState("");
-  const [foundClient, setFoundClient] = useState<Client | null>(null);
+  const [foundClient, setFoundClient] = useState<ClientDisplay | null>(null);
   const [searched, setSearched] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const client = clients.find((c) => c.phone.includes(phone));
+    
+    let client: ClientDisplay | undefined;
+    
+    if (findByPhone) {
+      const found = findByPhone(phone);
+      if (found) {
+        client = {
+          id: found.id,
+          name: found.name,
+          phone: found.phone,
+          points: found.points,
+          totalRewards: found.free_coffees,
+        };
+      }
+    } else {
+      client = clients.find((c) => c.phone.includes(phone));
+    }
+    
     setFoundClient(client || null);
     setSearched(true);
   };
