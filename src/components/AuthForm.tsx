@@ -6,12 +6,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { Coffee, Mail, Lock, User, Loader2 } from "lucide-react";
+import { Coffee, Mail, Lock, User, Loader2, Phone } from "lucide-react";
+import { PhoneLookup } from "./PhoneLookup";
 
 export const AuthForm = () => {
   const { signIn, signUp, signInWithGoogle } = useAuth();
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [showPhoneLookup, setShowPhoneLookup] = useState(false);
 
   // Login form state
   const [loginEmail, setLoginEmail] = useState("");
@@ -72,6 +74,10 @@ export const AuthForm = () => {
     }
   };
 
+  if (showPhoneLookup) {
+    return <PhoneLookup onBack={() => setShowPhoneLookup(false)} />;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-coffee-light via-cream to-coffee-light/50 p-4">
       <Card className="w-full max-w-md shadow-elegant border-coffee/20">
@@ -79,7 +85,7 @@ export const AuthForm = () => {
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-coffee to-espresso rounded-full flex items-center justify-center shadow-lg">
             <Coffee className="w-8 h-8 text-cream" />
           </div>
-          <CardTitle className="font-display text-2xl text-espresso">Bean Bliss Loyalty</CardTitle>
+          <CardTitle className="font-display text-2xl text-espresso">HoodCup Loyalty</CardTitle>
           <CardDescription className="text-coffee/70">
             Sign in to your account or create a new one
           </CardDescription>
@@ -222,6 +228,25 @@ export const AuthForm = () => {
               </svg>
             )}
             Continue with Google
+          </Button>
+
+          <div className="relative w-full">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-coffee/20" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-coffee/50">Quick lookup</span>
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full border-coffee/30 hover:bg-coffee/5"
+            onClick={() => setShowPhoneLookup(true)}
+          >
+            <Phone className="w-4 h-4 mr-2" />
+            Check my loyalty card
           </Button>
         </CardFooter>
       </Card>
