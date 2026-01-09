@@ -22,7 +22,7 @@ export function Header({ view, onViewChange, userRole, onSignOut }: HeaderProps)
             </div>
             <div>
               <h1 className="font-serif text-xl font-semibold text-foreground">
-                Bean & Brew
+                CornerCup
               </h1>
               <p className="text-xs text-muted-foreground">Loyalty Program</p>
             </div>
