@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
 import { AdminDashboard } from "@/components/AdminDashboard";
-import { ClientLookup } from "@/components/ClientLookup";
+import { ClientDashboard } from "@/components/ClientDashboard";
 import { AuthForm } from "@/components/AuthForm";
 import { Toaster } from "@/components/ui/sonner";
 import { useAuth } from "@/hooks/useAuth";
@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 
 const Index = () => {
   const { user, role, loading: authLoading, signOut } = useAuth();
-  const { clients, loading: clientsLoading, addClient, addPoint, redeemReward, findClientByPhone } = useClients();
+  const { clients, loading: clientsLoading, addClient, addPoint, redeemReward } = useClients();
 
   // Show loading spinner while checking auth
   if (authLoading) {
@@ -30,7 +30,7 @@ const Index = () => {
     );
   }
 
-  // Convert clients for components (totalRewards -> free_coffees mapping)
+  // Convert clients for admin components
   const mappedClients = clients.map((c) => ({
     id: c.id,
     name: c.name,
@@ -49,22 +49,21 @@ const Index = () => {
       />
       
       <main className="container mx-auto px-4 py-8">
-        {clientsLoading ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-coffee" />
-          </div>
-        ) : role === "admin" ? (
-          <AdminDashboard
-            clients={mappedClients}
-            onAddClient={addClient}
-            onAddPoint={addPoint}
-            onRedeemReward={redeemReward}
-          />
+        {role === "admin" ? (
+          clientsLoading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-coffee" />
+            </div>
+          ) : (
+            <AdminDashboard
+              clients={mappedClients}
+              onAddClient={addClient}
+              onAddPoint={addPoint}
+              onRedeemReward={redeemReward}
+            />
+          )
         ) : (
-          <ClientLookup 
-            clients={mappedClients} 
-            findByPhone={findClientByPhone}
-          />
+          <ClientDashboard />
         )}
       </main>
 
