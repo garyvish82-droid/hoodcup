@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@layer base {
+  :root {
+    /* Cozy warm palette - like a cozy café */
+    --background: 28 35% 96%;
+    --foreground: 20 40% 14%;
+
+    --card: 30 40% 98%;
+    --card-foreground: 20 40% 14%;
+
+    --popover: 30 40% 98%;
+    --popover-foreground: 20 40% 14%;
+
+    /* Deep warm espresso */
+    --primary: 20 55% 20%;
+    --primary-foreground: 35 50% 96%;
+
+    /* Warm honey cream */
+    --secondary: 38 45% 90%;
+    --secondary-foreground: 20 45% 18%;
+
+    /* Soft latte muted */
+    --muted: 32 30% 92%;
+    --muted-foreground: 20 20% 40%;
+
+    /* Warm cinnamon accent */
+    --accent: 15 70% 48%;
+    --accent-foreground: 35 50% 97%;
+
+    --destructive: 0 65% 48%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 32 35% 85%;
+    --input: 32 35% 85%;
+    --ring: 20 55% 20%;
+
+    --radius: 1rem;
+
+    /* Custom cozy coffee tokens */
+    --coffee-dark: 20 50% 16%;
+    --coffee-medium: 22 40% 28%;
+    --coffee-light: 32 35% 82%;
+    --coffee-cream: 38 55% 94%;
+    --coffee-stamp: 15 70% 48%;
+    --coffee-stamp-empty: 32 20% 78%;
+    --coffee-gold: 42 95% 52%;
+
+    /* Warm cozy gradients */
+    --gradient-warm: linear-gradient(145deg, hsl(28 35% 96%) 0%, hsl(38 45% 92%) 100%);
+    --gradient-card: linear-gradient(165deg, hsl(30 40% 98%) 0%, hsl(38 50% 95%) 100%);
+    --gradient-stamp: linear-gradient(145deg, hsl(15 70% 48%) 0%, hsl(22 60% 40%) 100%);
+
+    /* Soft cozy shadows */
+    --shadow-soft: 0 2px 12px -3px hsl(20 40% 14% / 0.06);
+    --shadow-card: 0 6px 24px -6px hsl(20 40% 14% / 0.08);
+    --shadow-elevated: 0 12px 40px -8px hsl(20 40% 14% / 0.12);
+    --shadow-stamp: 0 3px 12px -3px hsl(15 70% 48% / 0.35);
+
+    --sidebar-background: 28 35% 96%;
+    --sidebar-foreground: 20 40% 18%;
+    --sidebar-primary: 20 55% 20%;
+    --sidebar-primary-foreground: 35 50% 96%;
+    --sidebar-accent: 38 45% 90%;
+    --sidebar-accent-foreground: 20 45% 18%;
+    --sidebar-border: 32 35% 85%;
+    --sidebar-ring: 20 55% 20%;
+  }
+
+  .dark {
+    --background: 20 30% 9%;
+    --foreground: 32 30% 94%;
+
+    --card: 20 28% 13%;
+    --card-foreground: 32 30% 94%;
+
+    --popover: 20 28% 13%;
+    --popover-foreground: 32 30% 94%;
+
+    --primary: 38 50% 82%;
+    --primary-foreground: 20 30% 9%;
+
+    --secondary: 22 25% 18%;
+    --secondary-foreground: 32 30% 88%;
+
+    --muted: 22 22% 16%;
+    --muted-foreground: 32 18% 58%;
+
+    --accent: 15 60% 52%;
+    --accent-foreground: 35 50% 97%;
+
+    --destructive: 0 58% 42%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 22 22% 22%;
+    --input: 22 22% 22%;
+    --ring: 38 50% 82%;
+
+    --coffee-dark: 32 25% 88%;
+    --coffee-medium: 32 22% 68%;
+    --coffee-light: 22 22% 22%;
+    --coffee-cream: 22 18% 14%;
+    --coffee-stamp: 15 60% 52%;
+    --coffee-stamp-empty: 22 15% 28%;
+
+    --sidebar-background: 20 28% 11%;
+    --sidebar-foreground: 32 25% 88%;
+    --sidebar-primary: 38 50% 82%;
+    --sidebar-primary-foreground: 20 30% 9%;
+    --sidebar-accent: 22 25% 18%;
+    --sidebar-accent-foreground: 32 30% 88%;
+    --sidebar-border: 22 22% 22%;
+    --sidebar-ring: 38 50% 82%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .coffee-card {
+    @apply bg-card rounded-2xl p-6;
+    box-shadow: var(--shadow-card);
+    background: var(--gradient-card);
+  }
+
+  .stamp-filled {
+    background: var(--gradient-stamp);
+    box-shadow: var(--shadow-stamp);
+  }
+
+  .stamp-empty {
+    @apply bg-coffee-stamp-empty;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-coffee-dark { background-color: hsl(var(--coffee-dark)); }
+  .bg-coffee-medium { background-color: hsl(var(--coffee-medium)); }
+  .bg-coffee-light { background-color: hsl(var(--coffee-light)); }
+  .bg-coffee-cream { background-color: hsl(var(--coffee-cream)); }
+  .bg-coffee-stamp { background-color: hsl(var(--coffee-stamp)); }
+  .bg-coffee-stamp-empty { background-color: hsl(var(--coffee-stamp-empty)); }
+  .bg-coffee-gold { background-color: hsl(var(--coffee-gold)); }
+  
+  .text-coffee-dark { color: hsl(var(--coffee-dark)); }
+  .text-coffee-medium { color: hsl(var(--coffee-medium)); }
+  .text-coffee-stamp { color: hsl(var(--coffee-stamp)); }
+  .text-coffee-gold { color: hsl(var(--coffee-gold)); }
+
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-elevated { box-shadow: var(--shadow-elevated); }
+  .shadow-stamp { box-shadow: var(--shadow-stamp); }
+}
