@@ -29,7 +29,6 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-xl font-bold text-amber-900">HoodCup Admin</h1>
@@ -49,8 +48,6 @@ export default function AdminDashboard() {
             <Button variant="ghost" size="sm" onClick={signOut}>Sign out</Button>
           </div>
         </div>
-
-        {/* Stats */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="bg-white rounded-xl p-4 text-center shadow-sm">
             <p className="text-2xl font-bold text-amber-900">{clients.length}</p>
@@ -69,11 +66,39 @@ export default function AdminDashboard() {
             <p className="text-xs text-gray-500">Total visits</p>
           </div>
         </div>
-
-        {/* Add Client */}
         <div className="bg-white rounded-xl p-4 shadow-sm mb-4">
           <h2 className="font-semibold text-gray-800 mb-3">Add new member</h2>
           <form onSubmit={handleAdd} className="flex gap-2">
-            <Input
-              placeholder="Name"
-              value={newName}
+            <Input placeholder="Name" value={newName} onChange={e => setNewName(e.target.value)} required />
+            <Input placeholder="Phone" value={newPhone} onChange={e => setNewPhone(e.target.value)} required />
+            <Button type="submit" className="bg-amber-600 hover:bg-amber-700 text-white whitespace-nowrap" disabled={adding}>
+              Add
+            </Button>
+          </form>
+        </div>
+        <Input placeholder="Search by phone number..." value={search} onChange={e => setSearch(e.target.value)} className="mb-4" />
+        {loading ? (
+          <div className="text-center py-8">
+            <div className="w-8 h-8 border-4 border-amber-600 border-t-transparent rounded-full animate-spin mx-auto" />
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {(filtered as typeof clients).map(client => (
+              <div key={client.id} className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <p className="font-semibold text-gray-800">{client.name}</p>
+                    <p className="text-sm text-gray-500">{client.phone}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-amber-900">{client.points}/10 stamps</p>
+                    <p className="text-xs text-gray-400">{client.total_purchases} visits</p>
+                  </div>
+                </div>
+                <div className="flex gap-1 mb-3">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <div key={i} className={`w-5 h-5 rounded-full ${i < client.points ? "bg-amber-500" : "bg-gray-200"}`} />
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <Button size="sm" classNa
