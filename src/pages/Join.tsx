@@ -10,10 +10,9 @@ import { toast } from "sonner";
 export default function Join() {
   const { user, role, loading } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   if (!loading && user && role) {
@@ -22,9 +21,17 @@ export default function Join() {
 
   const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+
     setSubmitting(true);
 
-    // 1. Create auth user
+    // Auto-generate email from phone so user only needs phone + password
+    const email = `${phone.replace(/\D/g, "")}@hoodcup.com`;
+
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
@@ -41,7 +48,6 @@ export default function Join() {
 
     const userId = data.user.id;
 
-    // 2. Assign client role
     const { error: roleError } = await supabase
       .from("user_roles")
       .insert({ user_id: userId, role: "client" });
@@ -52,14 +58,9 @@ export default function Join() {
       return;
     }
 
-    // 3. Create loyalty card
     const { error: clientError } = await supabase
       .from("clients")
-      .insert({
-        user_id: userId,
-        name: fullName,
-        phone: phone,
-      });
+      .insert({ user_id: userId, name: fullName, phone });
 
     if (clientError) {
       toast.error("Failed to create loyalty card");
@@ -75,7 +76,6 @@ export default function Join() {
   return (
     <div className="min-h-screen bg-amber-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="text-4xl mb-2">☕</div>
           <h1 className="text-2xl font-bold text-amber-900">Join HoodCup</h1>
@@ -106,17 +106,7 @@ export default function Join() {
               placeholder="+1 234 567 8900"
               required
             />
-          </div>
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-            />
+            <p className="text-xs text-gray-400 mt-1">Used to find your card at the coffee shop</p>
           </div>
           <div>
             <Label htmlFor="password">Password</Label>
@@ -125,16 +115,17 @@ export default function Join() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="At least 6 characters"
               required
             />
+            <p className="text-xs text-gray-400 mt-1">Minimum 6 characters</p>
           </div>
           <Button
             type="submit"
             className="w-full bg-amber-600 hover:bg-amber-700 text-white"
             disabled={submitting}
           >
-            {submitting ? "Creating your card..." : "Join & Get My Loyalty Card ☕"}
+            {submitting ? "Creating your card..." : "Get My Loyalty Card ☕"}
           </Button>
         </form>
 
