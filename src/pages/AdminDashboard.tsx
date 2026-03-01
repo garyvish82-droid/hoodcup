@@ -30,11 +30,24 @@ export default function AdminDashboard() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-xl font-bold text-amber-900">HoodCup Admin</h1>
-            <p className="text-sm text-gray-500">Manage your loyalty program</p>
-          </div>
-          <Button variant="ghost" size="sm" onClick={signOut}>Sign out</Button>
+  <div>
+    <h1 className="text-xl font-bold text-amber-900">HoodCup Admin</h1>
+    <p className="text-sm text-gray-500">Manage your loyalty program</p>
+  </div>
+  <div className="flex gap-2">
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => {
+        navigator.clipboard.writeText(`${window.location.origin}/join`);
+        toast.success("Invite link copied! 🔗");
+      }}
+    >
+      Copy Invite Link
+    </Button>
+    <Button variant="ghost" size="sm" onClick={signOut}>Sign out</Button>
+  </div>
+</div>
         </div>
 
         {/* Stats */}
