@@ -101,4 +101,23 @@ export default function AdminDashboard() {
                   ))}
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" classNa
+                  <Button size="sm" className="bg-amber-600 hover:bg-amber-700 text-white flex-1" onClick={() => addPoint(client.id)} disabled={client.points >= 10}>
+                    + Stamp
+                  </Button>
+                  {client.points >= 10 && (
+                    <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white flex-1" onClick={() => redeemReward(client.id)}>
+                      Redeem ☕
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ))}
+            {filtered.length === 0 && (
+              <p className="text-center text-gray-400 py-8">No members found</p>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
