@@ -174,18 +174,6 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
               </div>
             </CardContent>
           </Card>
-
-          {/* Sign in prompt */}
-          <Card className="border-coffee/20 bg-coffee/5">
-            <CardContent className="pt-6 text-center">
-              <p className="text-sm text-muted-foreground mb-3">
-                Want to access your loyalty card anytime?
-              </p>
-              <Button variant="outline" onClick={onBack} className="border-coffee/30">
-                Create an account
-              </Button>
-            </CardContent>
-          </Card>
         </div>
       </div>
     );
