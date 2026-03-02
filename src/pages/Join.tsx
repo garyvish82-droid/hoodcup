@@ -69,7 +69,7 @@ export default function Join() {
     }
 
     toast.success("Welcome to HoodCup! ☕");
-    navigate("/dashboard");
+    navigate("/");
     setSubmitting(false);
   };
 
