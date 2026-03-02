@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Search, Users, Coffee, Gift } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { ClientCard } from "./ClientCard";
 import { AddClientDialog } from "./AddClientDialog";
+import { toast } from "sonner";
 
 interface Client {
   id: string;
@@ -93,6 +95,15 @@ export function AdminDashboard({
             className="pl-10"
           />
         </div>
+        <Button
+          variant="outline"
+          onClick={() => {
+            navigator.clipboard.writeText(`${window.location.origin}/join`);
+            toast.success("Invite link copied! 🔗");
+          }}
+        >
+          Copy Invite Link
+        </Button>
         <AddClientDialog onAddClient={onAddClient} />
       </div>
 
