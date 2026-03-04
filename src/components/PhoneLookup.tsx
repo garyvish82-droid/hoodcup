@@ -74,7 +74,6 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-coffee-light via-cream to-coffee-light/50 p-4">
         <div className="max-w-2xl mx-auto space-y-6 py-8">
-          {/* Back Button */}
           <Button 
             variant="ghost" 
             onClick={handleReset}
@@ -84,7 +83,6 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
             Check another number
           </Button>
 
-          {/* Welcome Header */}
           <div className="text-center mb-8">
             <h2 className="font-serif text-3xl text-foreground mb-2">
               Welcome, {clientData.name}!
@@ -94,10 +92,8 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
             </p>
           </div>
 
-          {/* Main Stamp Card */}
           <StampCard points={clientData.points} maxPoints={10} />
 
-          {/* Progress Section */}
           <Card className="border-coffee/20">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg flex items-center gap-2">
@@ -120,7 +116,6 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
             </CardContent>
           </Card>
 
-          {/* Stats Grid */}
           <div className="grid grid-cols-2 gap-4">
             <Card className="border-coffee/20">
               <CardContent className="pt-6">
@@ -129,12 +124,8 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
                     <ShoppingBag className="w-6 h-6 text-coffee" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-foreground">
-                      {clientData.total_purchases}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Total Purchases
-                    </p>
+                    <p className="text-2xl font-bold text-foreground">{clientData.total_purchases}</p>
+                    <p className="text-sm text-muted-foreground">Total Purchases</p>
                   </div>
                 </div>
               </CardContent>
@@ -147,19 +138,14 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
                     <Gift className="w-6 h-6 text-coffee-gold" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-foreground">
-                      {clientData.free_coffees}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Free Coffees Earned
-                    </p>
+                    <p className="text-2xl font-bold text-foreground">{clientData.free_coffees}</p>
+                    <p className="text-sm text-muted-foreground">Free Coffees Earned</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Info Card */}
           <Card className="bg-muted/50 border-coffee/10">
             <CardContent className="pt-6">
               <div className="flex items-start gap-3">
@@ -182,11 +168,11 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-coffee-light via-cream to-coffee-light/50 p-4">
       <Card className="w-full max-w-md shadow-elegant border-coffee/20">
-        <CardHeader className="text-center space-y-4">
+        <CardHeader className="text-center space-y-4 relative">
           <Button 
             variant="ghost" 
             onClick={onBack}
-            className="absolute left-4 top-4 text-coffee hover:text-espresso"
+            className="absolute left-0 top-0 text-coffee hover:text-espresso"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
@@ -214,12 +200,26 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
                   onChange={(e) => setPhone(e.target.value)}
                   className="pl-10"
                   autoComplete="tel"
+                  disabled={loading}
                 />
               </div>
             </div>
-            <Button type="submit" className="w-full bg-coffee hover:bg-espresso" disabled={loading}>
-              {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-              Look Up My Card
+            <Button
+              type="submit"
+              className="w-full bg-coffee hover:bg-espresso"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  Looking up your card...
+                </>
+              ) : (
+                <>
+                  <Phone className="w-4 h-4 mr-2" />
+                  Look Up My Card
+                </>
+              )}
             </Button>
           </form>
         </CardContent>
