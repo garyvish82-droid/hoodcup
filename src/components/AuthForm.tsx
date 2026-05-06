@@ -138,19 +138,19 @@ export const AuthForm = () => {
 
         {/* How it works */}
         <Card className="bg-white/60 border-coffee/10">
-          <CardContent className="pt-6 pb-4">
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div>
-                <div className="text-2xl mb-1">☕</div>
-                <p className="text-xs text-coffee/70">Buy a coffee</p>
+          <CardContent className="pt-5 pb-4">
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div className="space-y-2">
+                <div className="text-3xl">☕</div>
+                <p className="text-sm text-coffee/80 font-medium">Buy a coffee</p>
               </div>
-              <div>
-                <div className="text-2xl mb-1">✓</div>
-                <p className="text-xs text-coffee/70">Collect stamps</p>
+              <div className="space-y-2">
+                <div className="text-3xl">✅</div>
+                <p className="text-sm text-coffee/80 font-medium">Get a stamp</p>
               </div>
-              <div>
-                <div className="text-2xl mb-1">🎁</div>
-                <p className="text-xs text-coffee/70">Get a free one</p>
+              <div className="space-y-2">
+                <div className="text-3xl">🎁</div>
+                <p className="text-sm text-coffee/80 font-medium">10th is free</p>
               </div>
             </div>
           </CardContent>

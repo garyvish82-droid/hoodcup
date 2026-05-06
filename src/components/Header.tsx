@@ -28,9 +28,8 @@ export function Header({ view, onViewChange, userRole, onSignOut }: HeaderProps)
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            {/* Role indicator */}
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-muted rounded-full">
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-muted rounded-full">
               {userRole === "admin" ? (
                 <>
                   <Shield className="w-4 h-4 text-coffee" />
@@ -52,7 +51,7 @@ export function Header({ view, onViewChange, userRole, onSignOut }: HeaderProps)
                 className="gap-2"
               >
                 <LogOut className="w-4 h-4" />
-                Sign Out
+                <span className="hidden sm:inline">Sign Out</span>
               </Button>
             )}
           </div>
