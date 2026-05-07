@@ -155,45 +155,39 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
           <form onSubmit={handleLookup} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="phone" className="text-espresso">Phone Number</Label>
-              <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-coffee/50" />
-                <Input
-                  id="phone"
-                  type="tel"
-                  inputMode="numeric"
-                  enterKeyHint="go"
-                  placeholder="Enter your phone number"
-                  value={phone}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setPhone(val);
-                    if (val.replace(/\D/g, "").length >= 9) {
-                      handleLookup({ preventDefault: () => {} } as React.FormEvent);
-                    }
-                  }}
-                  className="pl-10 text-base"
-                  autoComplete="tel"
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-coffee/50" />
+                  <Input
+                    id="phone"
+                    type="tel"
+                    inputMode="numeric"
+                    enterKeyHint="go"
+                    placeholder="Your phone number"
+                    value={phone}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setPhone(val);
+                      if (val.replace(/\D/g, "").length >= 9) {
+                        handleLookup({ preventDefault: () => {} } as React.FormEvent);
+                      }
+                    }}
+                    className="pl-10 text-base"
+                    autoComplete="tel"
+                    disabled={loading}
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="bg-coffee hover:bg-espresso px-5 shrink-0"
                   disabled={loading}
-                />
+                >
+                  {loading
+                    ? <Loader2 className="w-4 h-4 animate-spin" />
+                    : "Go"}
+                </Button>
               </div>
             </div>
-            <Button
-              type="submit"
-              className="w-full bg-coffee hover:bg-espresso"
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                  Looking up your card...
-                </>
-              ) : (
-                <>
-                  <Phone className="w-4 h-4 mr-2" />
-                  Look Up My Card
-                </>
-              )}
-            </Button>
           </form>
         </CardContent>
       </Card>
