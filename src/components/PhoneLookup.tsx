@@ -23,22 +23,21 @@ interface PhoneLookupProps {
   prefilledPhone?: string;
 }
 
+type View = "input" | "welcome" | "card";
+
 export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) => {
   const [phone, setPhone] = useState(prefilledPhone);
   const [loading, setLoading] = useState(false);
   const [clientData, setClientData] = useState<ClientData | null>(null);
-  const [showWelcome, setShowWelcome] = useState(false);
+  const [view, setView] = useState<View>("input");
 
   useEffect(() => {
     if (prefilledPhone) {
-      handleLookup({ preventDefault: () => {} } as React.FormEvent, prefilledPhone);
+      doLookup(prefilledPhone);
     }
   }, []);
 
-  const handleLookup = async (e: React.FormEvent, phoneOverride?: string) => {
-    e.preventDefault();
-    
-    const rawPhone = phoneOverride ?? phone;
+  const doLookup = async (rawPhone: string) => {
     const cleanPhone = rawPhone.replace(/\D/g, "");
     if (cleanPhone.length < 7) {
       toast.error("Please enter a valid phone number");
@@ -46,7 +45,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
     }
 
     setLoading(true);
-    
+
     const { data, error } = await supabase
       .from("clients")
       .select("*")
@@ -56,7 +55,6 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
     setLoading(false);
 
     if (error) {
-      console.error("Lookup error:", error);
       toast.error("Something went wrong. Please try again.");
       return;
     }
@@ -66,25 +64,32 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
       return;
     }
 
-    setClientData(data);
     const key = `welcomed_${data.id}`;
-    if (!localStorage.getItem(key)) {
+    const isFirstTime = !localStorage.getItem(key);
+
+    if (isFirstTime) {
       localStorage.setItem(key, "1");
-      setShowWelcome(true);
-      setTimeout(() => setShowWelcome(false), 3500);
+      setClientData(data);
+      setView("welcome");
+      setTimeout(() => setView("card"), 4500);
+    } else {
+      setClientData(data);
+      setView("card");
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    doLookup(phone);
   };
 
   const handleReset = () => {
     setClientData(null);
     setPhone("");
+    setView("input");
   };
 
-  const pointsToReward = clientData ? 10 - clientData.points : 10;
-  const progressPercent = clientData ? (clientData.points / 10) * 100 : 0;
-  const hasRewardReady = clientData ? clientData.points >= 10 : false;
-
-  if (clientData && showWelcome) {
+  if (view === "welcome" && clientData) {
     return (
       <div className="min-h-screen bg-amber-900 flex flex-col items-center justify-center p-6 text-center animate-fadeIn">
         <div className="text-6xl mb-6 animate-bounce">☕</div>
@@ -95,7 +100,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
     );
   }
 
-  if (clientData) {
+  if (view === "card" && clientData) {
     const pointsToRewardLocal = 10 - clientData.points;
     const progressPercentLocal = (clientData.points / 10) * 100;
     const hasRewardReadyLocal = clientData.points >= 10;
@@ -103,8 +108,8 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
     return (
       <div className="min-h-screen bg-gradient-to-br from-coffee-light via-cream to-coffee-light/50 p-4 animate-fadeInSlow">
         <div className="max-w-md mx-auto space-y-4 py-6">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={handleReset}
             className="text-coffee hover:text-espresso -ml-2"
           >
@@ -159,8 +164,8 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-coffee-light via-cream to-coffee-light/50 p-4">
       <Card className="w-full max-w-md shadow-elegant border-coffee/20">
         <CardHeader className="text-center space-y-4 pt-12">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={onBack}
             className="absolute left-2 top-2 text-coffee hover:text-espresso"
           >
@@ -177,7 +182,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleLookup} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="phone" className="text-espresso">Phone Number</Label>
               <div className="flex gap-2">
@@ -194,7 +199,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
                       const val = e.target.value;
                       setPhone(val);
                       if (val.replace(/\D/g, "").length >= 7) {
-                        handleLookup({ preventDefault: () => {} } as React.FormEvent, val);
+                        doLookup(val);
                       }
                     }}
                     className="pl-10 text-base"
@@ -207,9 +212,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
                   className="bg-coffee hover:bg-espresso px-5 shrink-0"
                   disabled={loading}
                 >
-                  {loading
-                    ? <Loader2 className="w-4 h-4 animate-spin" />
-                    : "Go"}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Go"}
                 </Button>
               </div>
             </div>
