@@ -131,7 +131,7 @@ export function ClientCard({ client, onAddPoint, onRedeemReward, onUpdateClient 
           <DialogFooter>
             <Button variant="outline" onClick={() => setEditOpen(false)}>Cancel</Button>
             <Button
-              className="bg-coffee hover:bg-espresso"
+              className="bg-amber-600 hover:bg-amber-700 text-white"
               onClick={handleSave}
               disabled={saving || !name.trim() || !phone.trim() || !hasChanges}
             >
