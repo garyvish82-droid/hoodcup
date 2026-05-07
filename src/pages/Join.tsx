@@ -22,6 +22,12 @@ export default function Join() {
   const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const cleanPhone = phone.replace(/\D/g, "");
+    if (cleanPhone.length < 7) {
+      toast.error("Please enter a valid phone number");
+      return;
+    }
+
     if (password.length < 6) {
       toast.error("Password must be at least 6 characters");
       return;
@@ -29,8 +35,8 @@ export default function Join() {
 
     setSubmitting(true);
 
-    // Auto-generate email from phone so user only needs phone + password
-    const email = `${phone.replace(/\D/g, "")}@hoodcup.com`;
+    // prefix with 'u' so email is always valid (digits-only local part is rejected by some providers)
+    const email = `u${cleanPhone}@hoodcup.app`;
 
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
@@ -46,8 +52,6 @@ export default function Join() {
       return;
     }
 
-    // Insert client record using service-level upsert via phone lookup
-    // user_roles is handled automatically by the handle_new_user trigger
     const { error: clientError } = await supabase
       .from("clients")
       .upsert({ user_id: data.user.id, name: fullName, phone }, { onConflict: "phone" });
