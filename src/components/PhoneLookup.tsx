@@ -27,6 +27,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
   const [phone, setPhone] = useState(prefilledPhone);
   const [loading, setLoading] = useState(false);
   const [clientData, setClientData] = useState<ClientData | null>(null);
+  const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
     if (prefilledPhone) {
@@ -65,7 +66,12 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
     }
 
     setClientData(data);
-    toast.success(`Welcome back, ${data.name}!`);
+    const key = `welcomed_${data.id}`;
+    if (!localStorage.getItem(key)) {
+      localStorage.setItem(key, "1");
+      setShowWelcome(true);
+      setTimeout(() => setShowWelcome(false), 2500);
+    }
   };
 
   const handleReset = () => {
@@ -76,6 +82,17 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
   const pointsToReward = clientData ? 10 - clientData.points : 10;
   const progressPercent = clientData ? (clientData.points / 10) * 100 : 0;
   const hasRewardReady = clientData ? clientData.points >= 10 : false;
+
+  if (clientData && showWelcome) {
+    return (
+      <div className="min-h-screen bg-amber-900 flex flex-col items-center justify-center p-6 text-center">
+        <div className="text-6xl mb-6 animate-bounce">☕</div>
+        <p className="text-amber-200 text-lg mb-2">Hey there,</p>
+        <h1 className="text-5xl font-bold text-white mb-4">{clientData.name}!</h1>
+        <p className="text-amber-300 text-lg">So happy to have you 🎉</p>
+      </div>
+    );
+  }
 
   if (clientData) {
     const pointsToRewardLocal = 10 - clientData.points;
