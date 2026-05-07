@@ -31,15 +31,16 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
 
   useEffect(() => {
     if (prefilledPhone) {
-      handleLookup({ preventDefault: () => {} } as React.FormEvent);
+      handleLookup({ preventDefault: () => {} } as React.FormEvent, prefilledPhone);
     }
   }, []);
 
-  const handleLookup = async (e: React.FormEvent) => {
+  const handleLookup = async (e: React.FormEvent, phoneOverride?: string) => {
     e.preventDefault();
     
-    const cleanPhone = phone.replace(/\D/g, "");
-    if (cleanPhone.length < 9) {
+    const rawPhone = phoneOverride ?? phone;
+    const cleanPhone = rawPhone.replace(/\D/g, "");
+    if (cleanPhone.length < 7) {
       toast.error("Please enter a valid phone number");
       return;
     }
@@ -192,8 +193,8 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
                     onChange={(e) => {
                       const val = e.target.value;
                       setPhone(val);
-                      if (val.replace(/\D/g, "").length >= 9) {
-                        handleLookup({ preventDefault: () => {} } as React.FormEvent);
+                      if (val.replace(/\D/g, "").length >= 7) {
+                        handleLookup({ preventDefault: () => {} } as React.FormEvent, val);
                       }
                     }}
                     className="pl-10 text-base"
