@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Join from "./pages/Join";
+import MyStory from "./pages/MyStory";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/join" element={<Join />} />
+              <Route path="/mystory" element={<MyStory />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
