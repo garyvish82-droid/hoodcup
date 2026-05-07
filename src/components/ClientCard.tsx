@@ -36,6 +36,8 @@ export function ClientCard({ client, onAddPoint, onRedeemReward, onUpdateClient 
     if (ok) setEditOpen(false);
   };
 
+  const hasChanges = name.trim() !== client.name || phone.trim() !== client.phone;
+
   return (
     <>
       <div className="coffee-card animate-fade-in">
@@ -131,9 +133,9 @@ export function ClientCard({ client, onAddPoint, onRedeemReward, onUpdateClient 
             <Button
               className="bg-coffee hover:bg-espresso"
               onClick={handleSave}
-              disabled={saving || !name.trim() || !phone.trim()}
+              disabled={saving || !name.trim() || !phone.trim() || !hasChanges}
             >
-              {saving ? "Saving..." : "Save"}
+              {saving ? "Saving..." : "Save changes"}
             </Button>
           </DialogFooter>
         </DialogContent>
