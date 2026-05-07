@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Cup body -->
+  <path d="M6 12 L8 26 Q8 28 10 28 L22 28 Q24 28 24 26 L26 12 Z" fill="#5c3317"/>
+  <!-- Cup rim -->
+  <rect x="5" y="10" width="22" height="3" rx="1.5" fill="#7a4520"/>
+  <!-- Handle -->
+  <path d="M24 15 Q30 15 30 20 Q30 25 24 25" fill="none" stroke="#7a4520" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Steam lines -->
+  <path d="M12 7 Q13 5 12 3" fill="none" stroke="#c8956c" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M16 8 Q17 5.5 16 3" fill="none" stroke="#c8956c" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M20 7 Q21 5 20 3" fill="none" stroke="#c8956c" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
