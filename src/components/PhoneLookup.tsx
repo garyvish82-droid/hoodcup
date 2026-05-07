@@ -30,6 +30,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
   const [loading, setLoading] = useState(false);
   const [clientData, setClientData] = useState<ClientData | null>(null);
   const [view, setView] = useState<View>("input");
+  const [hasTriggered, setHasTriggered] = useState(false);
 
   useEffect(() => {
     if (prefilledPhone) {
@@ -87,6 +88,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
     setClientData(null);
     setPhone("");
     setView("input");
+    setHasTriggered(false);
   };
 
   if (view === "welcome" && clientData) {
@@ -198,7 +200,8 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
                     onChange={(e) => {
                       const val = e.target.value;
                       setPhone(val);
-                      if (val.replace(/\D/g, "").length >= 7) {
+                      if (!hasTriggered && val.replace(/\D/g, "").length >= 9) {
+                        setHasTriggered(true);
                         doLookup(val);
                       }
                     }}
