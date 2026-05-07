@@ -89,6 +89,64 @@ export default function MyStory() {
           </a>
         </section>
 
+        {/* Tech spec */}
+        <section className="space-y-5">
+          <div>
+            <h2 className="text-2xl font-bold text-amber-900">Under the hood</h2>
+            <p className="text-gray-500 text-sm mt-1">For the technical folks evaluating this for their shop</p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4">
+            {[
+              {
+                icon: "🏗️",
+                title: "Frontend",
+                items: ["React 18 + TypeScript", "Vite build tooling", "Tailwind CSS", "Hosted on AWS Amplify CDN"],
+              },
+              {
+                icon: "🗄️",
+                title: "Backend & Database",
+                items: ["Supabase (PostgreSQL)", "Row Level Security on all tables", "Real-time capable", "Automatic backups"],
+              },
+              {
+                icon: "🔒",
+                title: "Auth & Security",
+                items: ["Supabase Auth (JWT)", "Role-based access (admin / client)", "RLS policies per role", "No passwords stored in plain text"],
+              },
+              {
+                icon: "🚀",
+                title: "Scale & Performance",
+                items: ["CDN-served static assets", "Free tier handles ~50k MAU", "Sub-100ms DB queries", "Zero cold starts"],
+              },
+              {
+                icon: "💰",
+                title: "Cost",
+                items: ["$0/month up to ~5,000 users", "AWS Amplify free tier", "Supabase free tier", "No hidden fees"],
+              },
+              {
+                icon: "🔧",
+                title: "Ops",
+                items: ["CI/CD via GitHub → Amplify", "Zero-downtime deploys", "No server to manage", "Open for self-hosting"],
+              },
+            ].map(({ icon, title, items }) => (
+              <div key={title} className="bg-white rounded-2xl p-5 shadow-sm">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{icon}</span>
+                  <h3 className="font-bold text-amber-900">{title}</h3>
+                </div>
+                <ul className="space-y-1">
+                  {items.map(item => (
+                    <li key={item} className="text-sm text-gray-600 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Social links */}
         <section className="border-t border-amber-200 pt-8 flex flex-col items-center gap-4">
           <p className="text-gray-500 text-sm">Built by Garik — say hi</p>
