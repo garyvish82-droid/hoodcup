@@ -164,7 +164,13 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
                   enterKeyHint="go"
                   placeholder="Enter your phone number"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setPhone(val);
+                    if (val.replace(/\D/g, "").length >= 9) {
+                      handleLookup({ preventDefault: () => {} } as React.FormEvent);
+                    }
+                  }}
                   className="pl-10 text-base"
                   autoComplete="tel"
                   disabled={loading}
