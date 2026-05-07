@@ -155,6 +155,19 @@
     text-wrap: balance;
   }
 
+  .animate-fadeIn {
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  .animate-fadeInSlow {
+    animation: fadeIn 1.2s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
   .bg-coffee-dark { background-color: hsl(var(--coffee-dark)); }
   .bg-coffee-medium { background-color: hsl(var(--coffee-medium)); }
   .bg-coffee-light { background-color: hsl(var(--coffee-light)); }

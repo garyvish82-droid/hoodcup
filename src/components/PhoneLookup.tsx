@@ -70,7 +70,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
     if (!localStorage.getItem(key)) {
       localStorage.setItem(key, "1");
       setShowWelcome(true);
-      setTimeout(() => setShowWelcome(false), 2500);
+      setTimeout(() => setShowWelcome(false), 3500);
     }
   };
 
@@ -85,7 +85,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
 
   if (clientData && showWelcome) {
     return (
-      <div className="min-h-screen bg-amber-900 flex flex-col items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-amber-900 flex flex-col items-center justify-center p-6 text-center animate-fadeIn">
         <div className="text-6xl mb-6 animate-bounce">☕</div>
         <p className="text-amber-200 text-lg mb-2">Hey there,</p>
         <h1 className="text-5xl font-bold text-white mb-4">{clientData.name}!</h1>
@@ -100,7 +100,7 @@ export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) =
     const hasRewardReadyLocal = clientData.points >= 10;
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-coffee-light via-cream to-coffee-light/50 p-4">
+      <div className="min-h-screen bg-gradient-to-br from-coffee-light via-cream to-coffee-light/50 p-4 animate-fadeInSlow">
         <div className="max-w-md mx-auto space-y-4 py-6">
           <Button 
             variant="ghost" 
