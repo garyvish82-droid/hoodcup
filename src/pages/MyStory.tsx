@@ -77,6 +77,18 @@ export default function MyStory() {
           </a>
         </section>
 
+        {/* Try it */}
+        <section className="bg-amber-50 border border-amber-200 rounded-2xl p-6 text-center space-y-3">
+          <p className="text-amber-900 font-semibold text-lg">Try it yourself 👇</p>
+          <p className="text-gray-500 text-sm">Enter your phone and see the loyalty card flow</p>
+          <a
+            href="/join"
+            className="inline-block bg-amber-900 hover:bg-amber-800 text-white font-semibold px-8 py-3 rounded-full transition-colors"
+          >
+            Check my loyalty card ☕
+          </a>
+        </section>
+
         {/* Social links */}
         <section className="border-t border-amber-200 pt-8 flex flex-col items-center gap-4">
           <p className="text-gray-500 text-sm">Built by Garik — say hi</p>
