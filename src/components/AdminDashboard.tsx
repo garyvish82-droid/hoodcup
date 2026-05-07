@@ -19,6 +19,7 @@ interface AdminDashboardProps {
   onAddClient: (name: string, phone: string) => void;
   onAddPoint: (id: string) => void;
   onRedeemReward: (id: string) => void;
+  onUpdateClient: (id: string, fields: { name: string; phone: string }) => Promise<boolean>;
 }
 
 export function AdminDashboard({
@@ -26,6 +27,7 @@ export function AdminDashboard({
   onAddClient,
   onAddPoint,
   onRedeemReward,
+  onUpdateClient,
 }: AdminDashboardProps) {
   const [search, setSearch] = useState("");
 
@@ -123,6 +125,7 @@ export function AdminDashboard({
               client={client}
               onAddPoint={onAddPoint}
               onRedeemReward={onRedeemReward}
+              onUpdateClient={onUpdateClient}
             />
           ))
         )}

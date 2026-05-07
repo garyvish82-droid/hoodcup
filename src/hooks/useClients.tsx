@@ -116,6 +116,24 @@ export const useClients = () => {
     toast.success(`Free coffee redeemed for ${client.name}! ☕`);
   };
 
+  const updateClient = async (id: string, fields: { name: string; phone: string }) => {
+    const { error } = await supabase
+      .from("clients")
+      .update(fields)
+      .eq("id", id);
+
+    if (error) {
+      toast.error("Failed to update client");
+      return false;
+    }
+
+    setClients((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, ...fields } : c))
+    );
+    toast.success("Client updated");
+    return true;
+  };
+
   const findClientByPhone = (phone: string) => {
     return clients.find((c) => 
       c.phone.replace(/\D/g, "").includes(phone.replace(/\D/g, ""))
@@ -128,6 +146,7 @@ export const useClients = () => {
     addClient,
     addPoint,
     redeemReward,
+    updateClient,
     findClientByPhone,
     refetch: fetchClients,
   };

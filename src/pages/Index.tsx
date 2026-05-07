@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 
 const Index = () => {
   const { user, role, loading: authLoading, signOut } = useAuth();
-  const { clients, loading: clientsLoading, addClient, addPoint, redeemReward } = useClients();
+  const { clients, loading: clientsLoading, addClient, addPoint, redeemReward, updateClient } = useClients();
 
   // Show loading spinner while checking auth
   if (authLoading) {
@@ -60,6 +60,7 @@ const Index = () => {
               onAddClient={addClient}
               onAddPoint={addPoint}
               onRedeemReward={redeemReward}
+              onUpdateClient={updateClient}
             />
           )
         ) : (
