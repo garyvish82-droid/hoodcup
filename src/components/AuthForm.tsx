@@ -155,6 +155,12 @@ export const AuthForm = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Footer */}
+        <p className="text-center text-xs text-coffee/40">
+          Built with ☕ &amp; love ·{" "}
+          <a href="/mystory" className="underline hover:text-coffee/70 transition-colors">My Story</a>
+        </p>
       </div>
     </div>
   );
