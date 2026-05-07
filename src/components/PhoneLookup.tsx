@@ -160,10 +160,12 @@ export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
                 <Input
                   id="phone"
                   type="tel"
+                  inputMode="numeric"
+                  enterKeyHint="go"
                   placeholder="Enter your phone number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 text-base"
                   autoComplete="tel"
                   disabled={loading}
                 />
