@@ -36,7 +36,7 @@ export default function Join() {
       email,
       password,
       options: {
-        data: { full_name: fullName },
+        data: { full_name: fullName, phone },
       },
     });
 
@@ -46,24 +46,14 @@ export default function Join() {
       return;
     }
 
-    const userId = data.user.id;
-
-    const { error: roleError } = await supabase
-      .from("user_roles")
-      .insert({ user_id: userId, role: "client" });
-
-    if (roleError) {
-      toast.error("Failed to assign role");
-      setSubmitting(false);
-      return;
-    }
-
+    // Insert client record using service-level upsert via phone lookup
+    // user_roles is handled automatically by the handle_new_user trigger
     const { error: clientError } = await supabase
       .from("clients")
-      .insert({ user_id: userId, name: fullName, phone });
+      .upsert({ user_id: data.user.id, name: fullName, phone }, { onConflict: "phone" });
 
     if (clientError) {
-      toast.error("Failed to create loyalty card");
+      toast.error("Failed to create loyalty card. Phone may already be registered.");
       setSubmitting(false);
       return;
     }
