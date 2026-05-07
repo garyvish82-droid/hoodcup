@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,12 +20,19 @@ interface ClientData {
 
 interface PhoneLookupProps {
   onBack: () => void;
+  prefilledPhone?: string;
 }
 
-export const PhoneLookup = ({ onBack }: PhoneLookupProps) => {
-  const [phone, setPhone] = useState("");
+export const PhoneLookup = ({ onBack, prefilledPhone = "" }: PhoneLookupProps) => {
+  const [phone, setPhone] = useState(prefilledPhone);
   const [loading, setLoading] = useState(false);
   const [clientData, setClientData] = useState<ClientData | null>(null);
+
+  useEffect(() => {
+    if (prefilledPhone) {
+      handleLookup({ preventDefault: () => {} } as React.FormEvent);
+    }
+  }, []);
 
   const handleLookup = async (e: React.FormEvent) => {
     e.preventDefault();

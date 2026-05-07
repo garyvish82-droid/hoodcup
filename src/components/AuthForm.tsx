@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +16,18 @@ export const AuthForm = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [prefilledPhone, setPrefilledPhone] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const phone = params.get("phone");
+    if (phone) {
+      setPrefilledPhone(phone);
+      setView("phone");
+      // Clean the URL without reload
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  }, []);
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +45,7 @@ export const AuthForm = () => {
 
   // Phone lookup view
   if (view === "phone") {
-    return <PhoneLookup onBack={() => setView("home")} />;
+    return <PhoneLookup onBack={() => setView("home")} prefilledPhone={prefilledPhone} />;
   }
 
   // Admin login view
