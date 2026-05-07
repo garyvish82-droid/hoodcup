@@ -128,10 +128,10 @@ export function ClientCard({ client, onAddPoint, onRedeemReward, onUpdateClient 
               />
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter className="flex flex-row justify-end gap-2 pt-2">
             <Button variant="outline" onClick={() => setEditOpen(false)}>Cancel</Button>
             <Button
-              className="bg-amber-600 hover:bg-amber-700 text-white"
+              className="bg-amber-600 hover:bg-amber-700 text-white disabled:opacity-40 disabled:bg-amber-600"
               onClick={handleSave}
               disabled={saving || !name.trim() || !phone.trim() || !hasChanges}
             >
