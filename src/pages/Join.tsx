@@ -81,7 +81,14 @@ export default function Join() {
         return;
       }
     } else if (signUpData.user) {
-      userId = signUpData.user.id;
+      // Always sign in after signup to ensure active session before DB write
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError || !signInData.user) {
+        toast.error("Account created but login failed. Please try signing in.");
+        setSubmitting(false);
+        return;
+      }
+      userId = signInData.user.id;
     }
 
     if (!userId) {
