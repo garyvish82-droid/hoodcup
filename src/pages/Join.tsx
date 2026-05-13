@@ -97,16 +97,8 @@ export default function Join() {
       return;
     }
 
-    const { error: clientError } = await supabase
-      .from("clients")
-      .upsert({ user_id: userId, name: fullName.trim(), phone }, { onConflict: "phone" });
-
-    if (clientError) {
-      toast.error("Failed to create loyalty card");
-      setSubmitting(false);
-      return;
-    }
-
+    // Client record is created by the handle_new_user DB trigger
+    // Nothing else needed — navigate home
     toast.success("Welcome to HoodCup! ☕");
     navigate("/");
     setSubmitting(false);
