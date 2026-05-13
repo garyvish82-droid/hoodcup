@@ -57,21 +57,42 @@ export default function Join() {
     const cleanPhone = phone.replace(/\D/g, "");
     const email = `u${cleanPhone}@hoodcup.app`;
 
-    const { data, error: signUpError } = await supabase.auth.signUp({
+    // Try sign up first
+    let userId: string | null = null;
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: { data: { full_name: fullName, phone } },
     });
 
-    if (signUpError || !data.user) {
-      toast.error(signUpError?.message || "Signup failed");
+    if (signUpError) {
+      // If user already exists in auth, try signing in instead
+      if (signUpError.message.toLowerCase().includes("already") || signUpError.status === 422) {
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInError || !signInData.user) {
+          toast.error("This phone is already registered. Try signing in.");
+          setSubmitting(false);
+          return;
+        }
+        userId = signInData.user.id;
+      } else {
+        toast.error(signUpError.message);
+        setSubmitting(false);
+        return;
+      }
+    } else if (signUpData.user) {
+      userId = signUpData.user.id;
+    }
+
+    if (!userId) {
+      toast.error("Signup failed. Please try again.");
       setSubmitting(false);
       return;
     }
 
     const { error: clientError } = await supabase
       .from("clients")
-      .upsert({ user_id: data.user.id, name: fullName.trim(), phone }, { onConflict: "phone" });
+      .upsert({ user_id: userId, name: fullName.trim(), phone }, { onConflict: "phone" });
 
     if (clientError) {
       toast.error("Failed to create loyalty card");
